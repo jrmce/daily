@@ -1,4 +1,3 @@
-import { Action } from '@ngrx/store';
 import { AuthActions, AuthActionTypes } from '../actions/auth.actions';
 import { User } from '@firebase/auth-types';
 
@@ -18,12 +17,16 @@ export function reducer(state = initialState, action: AuthActions): State {
     case AuthActionTypes.LoginSuccessAction: {
       return {
         ...state,
-        user: action.payload.user,
-        loggedIn: true
+        loggedIn: true,
+        user: action.payload.user
       };
     }
 
-    case AuthActionTypes.LogoutAction: {
+    case AuthActionTypes.LogoutSuccessAction: {
+      return initialState;
+    }
+
+    case AuthActionTypes.LoginFailureAction: {
       return initialState;
     }
 

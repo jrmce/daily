@@ -5,7 +5,9 @@ export enum AuthActionTypes {
   LoginAction = '[Auth] Login Action',
   LoginSuccessAction = '[Auth] Login Success Action',
   LoginFailureAction = '[Auth] Login Failure Action',
-  LogoutAction = '[Auth] Logout Action'
+  LogoutAction = '[Auth] Logout Action',
+  LogoutSuccessAction = '[Auth] Logout Success Action',
+  LogoutFailureAction = '[Auth] Logout Failure Action',
 }
 
 export class Login implements Action {
@@ -14,7 +16,7 @@ export class Login implements Action {
 
 export class LoginSuccess implements Action {
   readonly type = AuthActionTypes.LoginSuccessAction;
-  constructor(public payload: { user: User }) {}
+  constructor(public payload: { user: User | null }) {}
 }
 
 export class LoginFailure implements Action {
@@ -26,7 +28,19 @@ export class Logout implements Action {
   readonly type = AuthActionTypes.LogoutAction;
 }
 
+export class LogoutSuccess implements Action {
+  readonly type = AuthActionTypes.LogoutSuccessAction;
+}
+
+export class LogoutFailure implements Action {
+  readonly type = AuthActionTypes.LogoutFailureAction;
+  constructor(public error: any) { }
+}
+
 export type AuthActions =
   | Login
   | LoginSuccess
-  | Logout;
+  | LoginFailure
+  | Logout
+  | LogoutSuccess
+  | LogoutFailure;

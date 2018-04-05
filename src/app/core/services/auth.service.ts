@@ -27,11 +27,19 @@ export class AuthService {
     return Observable.fromPromise(this.afAuth.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()));
   }
 
+  hardLogout(): Observable<any> {
+    return Observable.fromPromise(this.afAuth.auth.signOut());
+  }
+
   getUser(): Observable<User | null> {
     return this.store.pipe(select(fromAuth.getUser));
   }
 
   getLoggedIn(): Observable<boolean> {
     return this.store.pipe(select(fromAuth.getLoggedIn));
+  }
+
+  getAuthState(): Observable<User | null> {
+    return this.afAuth.authState;
   }
 }
