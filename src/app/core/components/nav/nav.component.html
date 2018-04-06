@@ -1,9 +1,6 @@
 <div>
   <h1>Daily</h1>
-  <div *ngIf="loggedIn$ | async; else showLogin">
-    <h2>Hello {{(user$ | async )?.displayName }}!</h2>
+  <div>
+    <p class="subtitle">{{(user$ | async )?.displayName}}</p>
   </div>
-  <ng-template #showLogin>
-    <button (click)="login()">Login with Google</button>
-  </ng-template>
 </div>

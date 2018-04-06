@@ -1,0 +1,4 @@
+<section *ngIf="(loggedIn$ | async) === false">
+  <h2>Login</h2>
+  <button (click)="login()">Login with Google</button>
+</section>

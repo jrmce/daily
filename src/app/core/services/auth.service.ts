@@ -3,16 +3,16 @@ import { Store, select } from '@ngrx/store';
 import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase/app';
 import { Observable } from 'rxjs/Observable';
-
-import * as fromAuth from '../reducers';
-import * as AuthActions from '../actions/auth.actions';
+import * as fromRoot from 'app/core/reducers';
+import * as AuthActions from 'app/core/actions/auth.actions';
 import { User } from '@firebase/auth-types';
+import { filter } from 'rxjs/operators';
 
 @Injectable()
 export class AuthService {
 
   constructor(
-    private store: Store<fromAuth.State>,
+    private store: Store<fromRoot.State>,
     public afAuth: AngularFireAuth) { }
 
   login(): void {
@@ -31,12 +31,15 @@ export class AuthService {
     return Observable.fromPromise(this.afAuth.auth.signOut());
   }
 
-  getUser(): Observable<User | null> {
-    return this.store.pipe(select(fromAuth.getUser));
+  getUser(): Observable<User> {
+    return this.store.pipe(
+      select(fromRoot.getUser),
+      filter(user => user != null)
+    ) as Observable<User>;
   }
 
   getLoggedIn(): Observable<boolean> {
-    return this.store.pipe(select(fromAuth.getLoggedIn));
+    return this.store.pipe(select(fromRoot.getLoggedIn));
   }
 
   getAuthState(): Observable<User | null> {

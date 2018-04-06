@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { map, catchError, mergeMap } from 'rxjs/operators';
+import { map, catchError, mergeMap, tap } from 'rxjs/operators';
 
 import {
   AuthActionTypes,
@@ -9,13 +9,15 @@ import {
   LoginFailure,
   LogoutSuccess,
   LogoutFailure,
-  Logout
+  Logout,
+  LoginRedirect
 } from '../actions/auth.actions';
 import { AuthService } from '../services/auth.service';
 import { of } from 'rxjs/observable/of';
 import { Observable } from 'rxjs/Observable';
 import { Action } from '@ngrx/store';
 import { defer } from 'rxjs/observable/defer';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthEffects {
@@ -42,8 +44,19 @@ export class AuthEffects {
           map(() => new LogoutSuccess()),
           catchError(error => of(new LogoutFailure(error)))
         );
-    }
-    )
+    })
+  );
+
+  @Effect({ dispatch: false })
+  loginSuccess$ = this.actions$.pipe(
+    ofType<LoginSuccess>(AuthActionTypes.LoginSuccessAction),
+    tap(() => this.router.navigate(['/']))
+  );
+
+  @Effect({ dispatch: false })
+  loginRedirect$ = this.actions$.pipe(
+    ofType<LoginRedirect|Logout>(AuthActionTypes.LoginRedirectAction, AuthActionTypes.LogoutAction),
+    tap(() => this.router.navigate(['/login']))
   );
 
   @Effect()
@@ -66,5 +79,6 @@ export class AuthEffects {
 
   constructor(
     private actions$: Actions,
-    private authService: AuthService) { }
+    private authService: AuthService,
+    private router: Router) { }
 }

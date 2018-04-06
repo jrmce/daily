@@ -9,10 +9,16 @@ import { EffectsModule } from '@ngrx/effects';
 import { reducers, metaReducers, initialState } from 'app/core/reducers';
 import { environment } from 'environments/environment';
 import { AuthEffects } from 'app/core/effects/auth.effects';
+import { LoginComponent } from 'app/core/components/login/login.component';
+import { AuthGuard } from 'app/core/guards/auth.guard';
+import { LoadAllEntriesResolver } from 'app/core/resolvers/load-all-entries.resolver';
+import { EntriesService } from 'app/core/services/entries.service';
+import { EntriesEffects } from 'app/core/effects/entries.effects';
 
 export const COMPONENTS = [
   NavComponent,
-  NotFoundPageComponent
+  NotFoundPageComponent,
+  LoginComponent
 ];
 
 @NgModule({
@@ -20,13 +26,19 @@ export const COMPONENTS = [
     CommonModule,
     StoreModule.forRoot(reducers, { metaReducers, initialState }),
     EffectsModule.forRoot([
-      AuthEffects
+      AuthEffects,
+      EntriesEffects
     ]),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
   ],
   declarations: COMPONENTS,
   exports: COMPONENTS,
-  providers: [AuthService]
+  providers: [
+    AuthService,
+    AuthGuard,
+    EntriesService,
+    LoadAllEntriesResolver
+  ]
 })
 export class CoreModule {
   constructor( @Optional() @SkipSelf() parentModule: CoreModule) {
