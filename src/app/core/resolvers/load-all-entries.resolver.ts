@@ -14,7 +14,7 @@ export class LoadAllEntriesResolver implements Resolve<boolean> {
           this.entriesService.loadAll();
         }
 
-        return total != null && total > 0;
+        return true;
       }),
       filter(loaded => loaded),
       take(1)

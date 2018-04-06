@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, Input, ChangeDetectionStrategy, OnChanges } from '@angular/core';
+import { Component, EventEmitter, Output, Input, ChangeDetectionStrategy, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Entry } from 'app/core/models/entry';
 
@@ -8,14 +8,14 @@ import { Entry } from 'app/core/models/entry';
   styleUrls: ['./entry-form.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class EntryFormComponent implements OnChanges {
+export class EntryFormComponent implements OnInit {
   @Input() entry: Entry = {
     text: ''
   } as Entry;
   @Output() submitted = new EventEmitter<{ form: any; id: string | undefined }>();
   form: FormGroup;
 
-  ngOnChanges(): void {
+  ngOnInit(): void {
     this.form = new FormGroup({
       text: new FormControl(this.entry.text, [Validators.required])
     });
