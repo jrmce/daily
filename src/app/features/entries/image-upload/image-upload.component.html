@@ -1,0 +1,3 @@
+<label for="file">Add Image:</label>
+<input type="file" (change)="upload($event)" accept=".png,.jpg" />
+<progress max="100" [value]="(uploadProgress$ | async)"></progress>

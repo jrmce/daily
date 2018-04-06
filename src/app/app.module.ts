@@ -8,6 +8,7 @@ import { CoreModule } from 'app/core/core.module';
 import { RouterModule } from '@angular/router';
 import { routes } from 'app/routes';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
+import { AngularFireStorageModule } from 'angularfire2/storage';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { AngularFirestoreModule } from 'angularfire2/firestore';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
     AngularFirestoreModule.enablePersistence(),
+    AngularFireStorageModule,
     RouterModule.forRoot(routes, { useHash: true })
   ],
   bootstrap: [AppComponent]

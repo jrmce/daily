@@ -1,4 +1,5 @@
 <section *ngIf="entry$ | async as entry">
   <h2>{{entry?.createdAt | date:'fullDate'}}</h2>
   <app-entry-form (submitted)="onSubmitted($event)" [entry]="entry"></app-entry-form>
+  <app-image-upload></app-image-upload>
 </section>

@@ -9,6 +9,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ViewEntryComponent } from './view-entry/view-entry.component';
 import { EditEntryComponent } from './edit-entry/edit-entry.component';
+import { ImageUploadComponent } from './image-upload/image-upload.component';
 
 @NgModule({
   imports: [
@@ -22,7 +23,8 @@ import { EditEntryComponent } from './edit-entry/edit-entry.component';
     EntryComponent,
     EntryFormComponent,
     ViewEntryComponent,
-    EditEntryComponent
+    EditEntryComponent,
+    ImageUploadComponent
   ]
 })
 export class EntriesModule { }
