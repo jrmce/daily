@@ -3,6 +3,7 @@ import { EntriesListComponent } from 'app/features/entries/entries-list/entries-
 import { NewEntryComponent } from 'app/features/entries/new-entry/new-entry.component';
 import { LoadAllEntriesResolver } from 'app/core/resolvers/load-all-entries.resolver';
 import { ViewEntryComponent } from 'app/features/entries/view-entry/view-entry.component';
+import { LoadEntryResolver } from 'app/core/resolvers/load-entry.resolver';
 
 export const routes: Routes = [
   {
@@ -17,6 +18,9 @@ export const routes: Routes = [
   {
     path: ':id',
     component: ViewEntryComponent,
-    resolve: [LoadAllEntriesResolver]
+    resolve: [
+      LoadAllEntriesResolver,
+      LoadEntryResolver
+    ]
   }
 ];

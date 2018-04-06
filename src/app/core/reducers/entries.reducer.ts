@@ -16,6 +16,36 @@ export function reducer(state = initialState, action: EntriesActions): State {
       return entriesAdapter.addOne(action.payload, state);
     }
 
+    case EntriesActionTypes.Modified: {
+      if (action.payload.id != null) {
+        return entriesAdapter.updateOne({
+          id: action.payload.id,
+          changes: action.payload
+        }, state);
+      }
+
+      return state;
+    }
+
+    case EntriesActionTypes.Removed: {
+      if (action.payload.id != null) {
+        return entriesAdapter.removeOne(action.payload.id, state);
+      }
+
+      return state;
+    }
+
+    case EntriesActionTypes.Upsert: {
+      if (action.payload.id != null) {
+        return entriesAdapter.upsertOne({
+          id: action.payload.id,
+          changes: action.payload
+        }, state);
+      }
+
+      return state;
+    }
+
     default: {
       return state;
     }

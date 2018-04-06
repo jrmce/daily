@@ -3,9 +3,12 @@ import { Entry } from 'app/core/models/entry';
 
 export enum EntriesActionTypes {
   LoadAllAction = '[Entries] Load All Action',
-  LoadAllSuccessAction = '[Entries] Load All Success Action',
-  LoadAllFailureAction = '[Entries] Load All Failure Action',
+  LoadFailureAction = '[Entries] Load Failure Action',
+  LoadEntryAction = '[Entries] Load Entry Action',
   Added = '[Entries] Added entry',
+  Modified = '[Entries] Modified entry',
+  Removed = '[Entries] Removed entry',
+  Upsert = '[Entries] Upsert entry',
   Create = '[Entries] Create entry',
   CreateSuccess = '[Entries] Create entry success',
   CreateFailure = '[Entries] Create entry failure'
@@ -15,18 +18,33 @@ export class LoadAll implements Action {
   readonly type = EntriesActionTypes.LoadAllAction;
 }
 
-export class LoadAllSuccess implements Action {
-  readonly type = EntriesActionTypes.LoadAllSuccessAction;
-  constructor(public payload: { entries: Entry[] }) { }
+export class LoadEntry implements Action {
+  readonly type = EntriesActionTypes.LoadEntryAction;
+  constructor(public payload: { id: string }) { }
 }
 
-export class LoadAllFailure implements Action {
-  readonly type = EntriesActionTypes.LoadAllFailureAction;
+export class LoadFailure implements Action {
+  readonly type = EntriesActionTypes.LoadFailureAction;
   constructor(public error: any) { }
 }
 
 export class Added implements Action {
   readonly type = EntriesActionTypes.Added;
+  constructor(public payload: Entry) { }
+}
+
+export class Modified implements Action {
+  readonly type = EntriesActionTypes.Modified;
+  constructor(public payload: Entry) { }
+}
+
+export class Removed implements Action {
+  readonly type = EntriesActionTypes.Removed;
+  constructor(public payload: Entry) { }
+}
+
+export class Upsert implements Action {
+  readonly type = EntriesActionTypes.Upsert;
   constructor(public payload: Entry) { }
 }
 
@@ -46,9 +64,11 @@ export class CreateFailure implements Action {
 
 export type EntriesActions =
   | LoadAll
-  | LoadAllSuccess
-  | LoadAllFailure
+  | LoadFailure
   | Added
+  | Modified
+  | Removed
+  | Upsert
   | Create
   | CreateSuccess
   | CreateFailure;

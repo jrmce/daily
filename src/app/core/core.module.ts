@@ -15,6 +15,7 @@ import { LoadAllEntriesResolver } from 'app/core/resolvers/load-all-entries.reso
 import { EntriesService } from 'app/core/services/entries.service';
 import { EntriesEffects } from 'app/core/effects/entries.effects';
 import { RouterModule } from '@angular/router';
+import { LoadEntryResolver } from 'app/core/resolvers/load-entry.resolver';
 
 export const COMPONENTS = [
   NavComponent,
@@ -39,7 +40,8 @@ export const COMPONENTS = [
     AuthService,
     AuthGuard,
     EntriesService,
-    LoadAllEntriesResolver
+    LoadAllEntriesResolver,
+    LoadEntryResolver
   ]
 })
 export class CoreModule {
