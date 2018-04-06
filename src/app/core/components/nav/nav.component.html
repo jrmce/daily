@@ -2,5 +2,6 @@
   <h1>Daily</h1>
   <div>
     <p class="subtitle">{{(user$ | async )?.displayName}}</p>
+    <a [routerLink]="['/entries']">All Entries</a>
   </div>
 </div>

@@ -8,6 +8,7 @@ import { EntryFormComponent } from './entry-form/entry-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ViewEntryComponent } from './view-entry/view-entry.component';
+import { EditEntryComponent } from './edit-entry/edit-entry.component';
 
 @NgModule({
   imports: [
@@ -20,7 +21,8 @@ import { ViewEntryComponent } from './view-entry/view-entry.component';
     NewEntryComponent,
     EntryComponent,
     EntryFormComponent,
-    ViewEntryComponent
+    ViewEntryComponent,
+    EditEntryComponent
   ]
 })
 export class EntriesModule { }

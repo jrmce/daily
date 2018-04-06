@@ -15,7 +15,9 @@ import {
   LoadEntry,
   Modified,
   Removed,
-  Upsert
+  Upsert,
+  UpdateSuccess,
+  UpdateFailure
 } from 'app/core/actions/entries.actions';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { Entry } from 'app/core/models/entry';
@@ -50,7 +52,7 @@ export class EntriesEffects {
     ofType<LoadEntry>(EntriesActionTypes.LoadEntryAction),
     switchMap(action => this.authService.getUser()
       .pipe(
-        map(user => ({ userId: user.uid, entryId: action.payload.id }))
+      map(user => ({ userId: user.uid, entryId: action.payload.id }))
       )
     ),
     switchMap(data => this.db
@@ -67,7 +69,7 @@ export class EntriesEffects {
     ofType<Create>(EntriesActionTypes.Create),
     switchMap(action => this.authService.getUser()
       .pipe(
-        map(user => ({ userId: user.uid, entry: action.payload }))
+      map(user => ({ userId: user.uid, entry: action.payload }))
       )
     ),
     switchMap(data => Observable.fromPromise(this.db.collection<Entry>(`users/${data.userId}/entries`).add(data.entry))),
@@ -75,10 +77,33 @@ export class EntriesEffects {
     catchError((error) => of(new CreateFailure(error)))
   );
 
+  @Effect()
+  update$: Observable<Action> = this.actions$.pipe(
+    ofType<Create>(EntriesActionTypes.Update),
+    switchMap(action => this.authService.getUser()
+      .pipe(
+      map(user => ({ userId: user.uid, entry: action.payload }))
+      )
+    ),
+    switchMap(data =>
+      Observable.fromPromise(
+        this.db.doc<Entry>(`users/${data.userId}/entries/${data.entry.id}`).update(data.entry)
+      ).pipe(map(() => data.entry))
+    ),
+    map(entry => new UpdateSuccess(entry)),
+    catchError((error) => of(new UpdateFailure(error)))
+  );
+
   @Effect({ dispatch: false })
   createRedirect$ = this.actions$.pipe(
     ofType<CreateSuccess>(EntriesActionTypes.CreateSuccess),
     tap(() => this.router.navigate(['/entries']))
+  );
+
+  @Effect({ dispatch: false })
+  updateRedirect$ = this.actions$.pipe(
+    ofType<UpdateSuccess>(EntriesActionTypes.UpdateSuccess),
+    tap((action) => this.router.navigate([`/entries/${action.payload.id}`]))
   );
 
   constructor(

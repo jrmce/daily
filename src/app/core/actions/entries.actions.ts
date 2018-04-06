@@ -11,7 +11,10 @@ export enum EntriesActionTypes {
   Upsert = '[Entries] Upsert entry',
   Create = '[Entries] Create entry',
   CreateSuccess = '[Entries] Create entry success',
-  CreateFailure = '[Entries] Create entry failure'
+  CreateFailure = '[Entries] Create entry failure',
+  Update = '[Entries] Update entry',
+  UpdateSuccess = '[Entries] Update entry success',
+  UpdateFailure = '[Entries] Update entry failure'
 }
 
 export class LoadAll implements Action {
@@ -62,6 +65,21 @@ export class CreateFailure implements Action {
   constructor(public error: any) { }
 }
 
+export class Update implements Action {
+  readonly type = EntriesActionTypes.Update;
+  constructor(public payload: Entry) { }
+}
+
+export class UpdateSuccess implements Action {
+  readonly type = EntriesActionTypes.UpdateSuccess;
+  constructor(public payload: Entry) { }
+}
+
+export class UpdateFailure implements Action {
+  readonly type = EntriesActionTypes.UpdateFailure;
+  constructor(public error: any) { }
+}
+
 export type EntriesActions =
   | LoadAll
   | LoadFailure
@@ -71,4 +89,7 @@ export type EntriesActions =
   | Upsert
   | Create
   | CreateSuccess
-  | CreateFailure;
+  | CreateFailure
+  | Update
+  | UpdateSuccess
+  | UpdateFailure;

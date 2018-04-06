@@ -4,6 +4,7 @@ import { NewEntryComponent } from 'app/features/entries/new-entry/new-entry.comp
 import { LoadAllEntriesResolver } from 'app/core/resolvers/load-all-entries.resolver';
 import { ViewEntryComponent } from 'app/features/entries/view-entry/view-entry.component';
 import { LoadEntryResolver } from 'app/core/resolvers/load-entry.resolver';
+import { EditEntryComponent } from 'app/features/entries/edit-entry/edit-entry.component';
 
 export const routes: Routes = [
   {
@@ -17,10 +18,19 @@ export const routes: Routes = [
   },
   {
     path: ':id',
-    component: ViewEntryComponent,
     resolve: [
       LoadAllEntriesResolver,
       LoadEntryResolver
+    ],
+    children: [
+      {
+        path: '',
+        component: ViewEntryComponent
+      },
+      {
+        path: 'edit',
+        component: EditEntryComponent
+      },
     ]
   }
 ];

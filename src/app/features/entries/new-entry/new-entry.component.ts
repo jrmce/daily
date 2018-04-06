@@ -11,13 +11,13 @@ export class NewEntryComponent {
 
   constructor(private entriesService: EntriesService) { }
 
-  onSubmitted(form: any) {
-    const createdAt = new Date().toISOString();
+  onSubmitted(event: { form: any, id: undefined }) {
+    const now = new Date().toISOString();
 
     this.entriesService.create({
-      createdAt,
-      updatedAt: createdAt,
-      ...form
+      createdAt: now,
+      updatedAt: now,
+      ...event.form
     });
   }
 }

@@ -25,6 +25,10 @@ export class EntriesService {
     this.store.dispatch(new EntriesActions.Create(entry));
   }
 
+  update(entry: Entry): void {
+    this.store.dispatch(new EntriesActions.Update(entry));
+  }
+
   getEntities(): Observable<Dictionary<Entry>> {
     return this.store.pipe(select(fromEntries.selectEntities));
   }
