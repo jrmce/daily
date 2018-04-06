@@ -39,18 +39,3 @@ export const getUser = createSelector(
   getAuthState,
   fromAuth.getUser
 );
-
-// export const getEntriesLoaded = createSelector(
-//   getEntriesState,
-//   fromEntries.getLoaded
-// );
-
-// export const getEntriesLoading = createSelector(
-//   getEntriesState,
-//   fromEntries.getLoading
-// );
-
-// export const getEntries = createSelector(
-//   getEntriesState,
-//   fromEntries.getEntries
-// );

@@ -6,7 +6,7 @@ import { AuthService } from './services/auth.service';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule } from '@ngrx/effects';
-import { reducers, metaReducers, initialState } from 'app/core/reducers';
+import { reducers, metaReducers } from 'app/core/reducers';
 import { environment } from 'environments/environment';
 import { AuthEffects } from 'app/core/effects/auth.effects';
 import { LoginComponent } from 'app/core/components/login/login.component';
@@ -26,7 +26,7 @@ export const COMPONENTS = [
   imports: [
     CommonModule,
     RouterModule,
-    StoreModule.forRoot(reducers, { metaReducers, initialState }),
+    StoreModule.forRoot(reducers, { metaReducers }),
     EffectsModule.forRoot([
       AuthEffects,
       EntriesEffects
