@@ -1,4 +1,10 @@
-<section *ngIf="(loggedIn$ | async) === false">
+<section *ngIf="(loggedIn$ | async) === false; else loggedIn">
   <h2>Login</h2>
   <button (click)="login()">Login with Google</button>
 </section>
+<ng-template #loggedIn>
+  <section>
+    <h2>You're already logged in</h2>
+    <a [routerLink]="['/']">Go home</a>
+  </section>
+</ng-template>

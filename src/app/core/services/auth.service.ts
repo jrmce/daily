@@ -38,7 +38,7 @@ export class AuthService {
     ) as Observable<User>;
   }
 
-  getLoggedIn(): Observable<boolean> {
+  getLoggedIn(): Observable<boolean | null> {
     return this.store.pipe(select(fromRoot.getLoggedIn));
   }
 

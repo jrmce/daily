@@ -19,7 +19,7 @@ export class EntriesEffects {
     switchMapTo(this.authService.getUser()),
     map(user => user.uid),
     switchMap(userId => this.db
-      .collection<Entry>(`users/${userId}/entries`, ref => ref.orderBy('createdAt', 'desc')).stateChanges()),
+      .collection<Entry>(`users/${userId}/entries`).stateChanges()),
     mergeMap(actions => actions),
     map(action => new Added({ id: action.payload.doc.id, ...action.payload.doc.data() as Entry })),
     catchError(error => of(new LoadAllFailure(error)))

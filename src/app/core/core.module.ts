@@ -14,6 +14,7 @@ import { AuthGuard } from 'app/core/guards/auth.guard';
 import { LoadAllEntriesResolver } from 'app/core/resolvers/load-all-entries.resolver';
 import { EntriesService } from 'app/core/services/entries.service';
 import { EntriesEffects } from 'app/core/effects/entries.effects';
+import { RouterModule } from '@angular/router';
 
 export const COMPONENTS = [
   NavComponent,
@@ -24,6 +25,7 @@ export const COMPONENTS = [
 @NgModule({
   imports: [
     CommonModule,
+    RouterModule,
     StoreModule.forRoot(reducers, { metaReducers, initialState }),
     EffectsModule.forRoot([
       AuthEffects,

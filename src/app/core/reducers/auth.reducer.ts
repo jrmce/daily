@@ -2,12 +2,12 @@ import { AuthActions, AuthActionTypes } from '../actions/auth.actions';
 import { User } from '@firebase/auth-types';
 
 export interface State {
-  loggedIn: boolean;
+  loggedIn: boolean | null;
   user: User | null;
 }
 
 export const initialState: State = {
-  loggedIn: false,
+  loggedIn: null,
   user: null
 };
 
@@ -23,11 +23,17 @@ export function reducer(state = initialState, action: AuthActions): State {
     }
 
     case AuthActionTypes.LogoutSuccessAction: {
-      return initialState;
+      return {
+        ...initialState,
+        loggedIn: false
+      };
     }
 
     case AuthActionTypes.LoginFailureAction: {
-      return initialState;
+      return {
+        ...initialState,
+        loggedIn: false
+      };
     }
 
     default: {

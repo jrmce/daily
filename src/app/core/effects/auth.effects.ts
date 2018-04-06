@@ -28,7 +28,7 @@ export class AuthEffects {
     mergeMap(() => {
       return this.authService.showLoginModal()
         .pipe(
-          map(res => new LoginSuccess({ user: res.user })),
+          map(res => new LoginSuccess({ user: res.user, redirect: true })),
           catchError(error => of(new LoginFailure(error)))
         );
       }
@@ -50,7 +50,11 @@ export class AuthEffects {
   @Effect({ dispatch: false })
   loginSuccess$ = this.actions$.pipe(
     ofType<LoginSuccess>(AuthActionTypes.LoginSuccessAction),
-    tap(() => this.router.navigate(['/']))
+    tap((action) => {
+      if (action.payload.redirect === true) {
+        this.router.navigate(['/']);
+      }
+    })
   );
 
   @Effect({ dispatch: false })
@@ -66,7 +70,7 @@ export class AuthEffects {
         .pipe(
           map(user => {
             if (user != null) {
-              return new LoginSuccess({ user });
+              return new LoginSuccess({ user, redirect: false });
             }
 
             throw new Error('No local user');
