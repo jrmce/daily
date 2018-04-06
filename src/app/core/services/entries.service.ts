@@ -29,6 +29,10 @@ export class EntriesService {
     return this.store.pipe(select(fromEntries.selectEntities));
   }
 
+  getAllEntries(): Observable<Entry[]> {
+    return this.store.pipe(select(fromEntries.selectAll));
+  }
+
   getTotal(): Observable<number> {
     return this.store.pipe(select(fromEntries.selectTotal));
   }
@@ -38,5 +42,9 @@ export class EntriesService {
       select(fromEntries.selectEntities),
       map(entities => entities[id])
     );
+  }
+
+  getToday(): Observable<Entry | null> {
+    return this.store.pipe(select(fromEntries.getToday));
   }
 }

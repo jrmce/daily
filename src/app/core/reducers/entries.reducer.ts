@@ -1,7 +1,8 @@
 import { EntriesActions, EntriesActionTypes } from 'app/core/actions/entries.actions';
 import { Entry } from 'app/core/models/entry';
 import { EntityState, createEntityAdapter } from '@ngrx/entity';
-import { createFeatureSelector } from '@ngrx/store';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { DateTime } from 'luxon';
 
 export interface State extends EntityState<Entry> { }
 export const entriesAdapter = createEntityAdapter<Entry>({
@@ -59,3 +60,19 @@ export const {
   selectAll,
   selectTotal,
 } = entriesAdapter.getSelectors(getEntriesState);
+export const getToday = createSelector(
+  selectAll,
+  (entries) => {
+    const now = DateTime.local();
+    const today = entries.find(entry => {
+      const entryTime = DateTime.fromISO(entry.createdAt);
+      return entryTime.hasSame(now, 'day');
+    });
+
+    if (today != null) {
+      return today;
+    }
+
+    return null;
+  }
+);

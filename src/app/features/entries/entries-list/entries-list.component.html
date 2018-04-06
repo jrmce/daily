@@ -1,3 +1,6 @@
+<section *ngIf="(today$ | async) == null">
+  <a [routerLink]="['new']">Add Today's Entry</a>
+</section>
 <section *ngFor="let entry of entries$ | async">
   <a [routerLink]="[entry.id]">
     <app-entry [entry]="entry"></app-entry>

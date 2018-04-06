@@ -18,7 +18,7 @@ import { AngularFirestoreModule } from 'angularfire2/firestore';
     CoreModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
-    AngularFirestoreModule,
+    AngularFirestoreModule.enablePersistence(),
     RouterModule.forRoot(routes, { useHash: true })
   ],
   bootstrap: [AppComponent]

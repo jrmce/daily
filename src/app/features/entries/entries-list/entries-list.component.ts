@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
-import * as fromEntries from 'app/core/reducers/entries.reducer';
-import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { Entry } from 'app/core/models/entry';
+import { EntriesService } from 'app/core/services/entries.service';
 
 @Component({
   selector: 'app-entries-list',
@@ -11,8 +10,10 @@ import { Entry } from 'app/core/models/entry';
 })
 export class EntriesListComponent {
   entries$: Observable<Entry[]>;
+  today$: Observable<Entry|null>;
 
-  constructor(private store: Store<fromEntries.State>) {
-    this.entries$ = this.store.pipe(select(fromEntries.selectAll));
+  constructor(private entriesService: EntriesService) {
+    this.entries$ = this.entriesService.getAllEntries();
+    this.today$ = this.entriesService.getToday();
   }
 }
