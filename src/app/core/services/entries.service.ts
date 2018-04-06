@@ -1,14 +1,16 @@
 import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 
 import * as EntriesActions from 'app/core/actions/entries.actions';
-import * as fromRoot from 'app/core/reducers';
+import * as fromEntries from 'app/core/reducers/entries.reducer';
 import { Entry } from 'app/core/models/entry';
+import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class EntriesService {
 
-  constructor(private store: Store<fromRoot.State>) { }
+  constructor(private store: Store<fromEntries.State>) { }
 
   loadAll(): void {
     this.store.dispatch(new EntriesActions.LoadAll());
@@ -18,15 +20,10 @@ export class EntriesService {
     this.store.dispatch(new EntriesActions.Create(entry));
   }
 
-  // getLoaded(): Observable<boolean> {
-  //   return this.store.pipe(select(fromRoot.getEntriesLoaded));
-  // }
-
-  // getLoading(): Observable<boolean> {
-  //   return this.store.pipe(select(fromRoot.getEntriesLoading));
-  // }
-
-  // getEntries(): Observable<any[]> {
-  //   return this.store.pipe(select(fromRoot.getEntries));
-  // }
+  getEntry(id: string): Observable<Entry> {
+    return this.store.pipe(
+      select(fromEntries.selectEntities),
+      map(entities => entities[id])
+    );
+  }
 }

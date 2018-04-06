@@ -1,3 +1,6 @@
 <section *ngFor="let entry of entries$ | async">
-  <app-entry [entry]="entry"></app-entry>
+  <a [routerLink]="[entry.id]">
+    <app-entry [entry]="entry"></app-entry>
+  </a>
+  <hr>
 </section>
