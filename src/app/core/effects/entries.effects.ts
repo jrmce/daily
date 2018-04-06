@@ -17,7 +17,8 @@ import {
   Removed,
   Upsert,
   UpdateSuccess,
-  UpdateFailure
+  UpdateFailure,
+  Update
 } from 'app/core/actions/entries.actions';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { Entry } from 'app/core/models/entry';
@@ -72,25 +73,25 @@ export class EntriesEffects {
       map(user => ({ userId: user.uid, entry: action.payload }))
       )
     ),
-    switchMap(data => Observable.fromPromise(this.db.collection<Entry>(`users/${data.userId}/entries`).add(data.entry))),
+    switchMap(action => Observable.fromPromise(this.db.collection<Entry>(`users/${action.userId}/entries`).add(action.entry))),
     map(() => new CreateSuccess()),
     catchError((error) => of(new CreateFailure(error)))
   );
 
   @Effect()
   update$: Observable<Action> = this.actions$.pipe(
-    ofType<Create>(EntriesActionTypes.Update),
+    ofType<Update>(EntriesActionTypes.Update),
     switchMap(action => this.authService.getUser()
       .pipe(
-      map(user => ({ userId: user.uid, entry: action.payload }))
+      map(user => ({ userId: user.uid, ...action.payload }))
       )
     ),
-    switchMap(data =>
+    switchMap(action =>
       Observable.fromPromise(
-        this.db.doc<Entry>(`users/${data.userId}/entries/${data.entry.id}`).update(data.entry)
-      ).pipe(map(() => data.entry))
+        this.db.doc<Entry>(`users/${action.userId}/entries/${action.entry.id}`).update(action.entry)
+      ).pipe(map(() => action))
     ),
-    map(entry => new UpdateSuccess(entry)),
+    map(action => new UpdateSuccess({ entry: action.entry, redirect: action.redirectOnSuccess })),
     catchError((error) => of(new UpdateFailure(error)))
   );
 
@@ -103,7 +104,8 @@ export class EntriesEffects {
   @Effect({ dispatch: false })
   updateRedirect$ = this.actions$.pipe(
     ofType<UpdateSuccess>(EntriesActionTypes.UpdateSuccess),
-    tap((action) => this.router.navigate([`/entries/${action.payload.id}`]))
+    filter(action => action.payload.redirect === true),
+    tap((action) => this.router.navigate([`/entries/${action.payload.entry.id}`]))
   );
 
   constructor(

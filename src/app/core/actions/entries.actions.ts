@@ -67,12 +67,12 @@ export class CreateFailure implements Action {
 
 export class Update implements Action {
   readonly type = EntriesActionTypes.Update;
-  constructor(public payload: Entry) { }
+  constructor(public payload: { entry: Entry, redirectOnSuccess?: boolean }) { }
 }
 
 export class UpdateSuccess implements Action {
   readonly type = EntriesActionTypes.UpdateSuccess;
-  constructor(public payload: Entry) { }
+  constructor(public payload: { entry: Entry, redirect?: boolean }) { }
 }
 
 export class UpdateFailure implements Action {

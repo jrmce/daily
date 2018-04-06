@@ -5,6 +5,7 @@ import { Entry } from 'app/core/models/entry';
 import { ActivatedRoute } from '@angular/router';
 import { map, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
+import { UploadsService } from 'app/core/services/uploads.service';
 
 @Component({
   selector: 'app-edit-entry',
@@ -16,7 +17,8 @@ export class EditEntryComponent {
 
   constructor(
     private entriesService: EntriesService,
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute,
+    private uploadsService: UploadsService) {
     this.entry$ = this.route.paramMap.pipe(
       map(params => params.get('id')),
       switchMap(id => {
@@ -33,9 +35,16 @@ export class EditEntryComponent {
     const now = new Date().toISOString();
 
     this.entriesService.update({
-      updatedAt: now,
-      id: event.id,
-      ...event.form
+      entry: {
+        updatedAt: now,
+        id: event.id,
+        ...event.form
+      },
+      redirectOnSuccess: true
     });
+  }
+
+  onUpload(event: { file: File, entry: Entry }): void {
+    this.uploadsService.upload({ ...event });
   }
 }

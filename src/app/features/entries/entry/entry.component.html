@@ -1,4 +1,7 @@
 <section>
   <h2>{{entry.createdAt | date:'fullDate'}}</h2>
   <p>{{entry.text}}</p>
+  <figure *ngIf="entry.imageUrl">
+    <img src="{{entry.imageUrl}}">
+  </figure>
 </section>

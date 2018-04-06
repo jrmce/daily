@@ -25,8 +25,8 @@ export class EntriesService {
     this.store.dispatch(new EntriesActions.Create(entry));
   }
 
-  update(entry: Entry): void {
-    this.store.dispatch(new EntriesActions.Update(entry));
+  update(update: { entry: Entry, redirectOnSuccess?: boolean }): void {
+    this.store.dispatch(new EntriesActions.Update({ ...update }));
   }
 
   getEntities(): Observable<Dictionary<Entry>> {

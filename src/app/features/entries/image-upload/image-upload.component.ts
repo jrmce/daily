@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { AngularFireStorage, AngularFireStorageReference } from 'angularfire2/storage';
+import { Component, EventEmitter, Output, Input } from '@angular/core';
+import { Entry } from 'app/core/models/entry';
 
 @Component({
   selector: 'app-image-upload',
@@ -7,18 +7,12 @@ import { AngularFireStorage, AngularFireStorageReference } from 'angularfire2/st
   styleUrls: ['./image-upload.component.css']
 })
 export class ImageUploadComponent {
-  downloadURL: any;
-  uploadProgress$: any;
-  task: any;
-  ref: AngularFireStorageReference;
+  @Input() entry: Entry;
+  @Output() submitted = new EventEmitter<{ file: File; entry: Entry }>();
 
-  constructor(private afStorage: AngularFireStorage) { }
-
-  upload(event: any) {
-    const randomId = Math.random().toString(36).substring(2);
-    this.ref = this.afStorage.ref(randomId);
-    this.task = this.ref.put(event.target.files[0]).snapshotChanges().map(ch => );
-    this.uploadProgress$ = this.task.percentageChanges();
-    this.downloadURL = this.task.downloadURL();
+  upload(files: FileList): void {
+    if (files instanceof FileList) {
+      this.submitted.emit({ file: files[0], entry: this.entry });
+    }
   }
 }

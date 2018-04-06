@@ -16,6 +16,8 @@ import { EntriesService } from 'app/core/services/entries.service';
 import { EntriesEffects } from 'app/core/effects/entries.effects';
 import { RouterModule } from '@angular/router';
 import { LoadEntryResolver } from 'app/core/resolvers/load-entry.resolver';
+import { UploadsService } from 'app/core/services/uploads.service';
+import { UploadsEffects } from 'app/core/effects/uploads.effects';
 
 export const COMPONENTS = [
   NavComponent,
@@ -30,7 +32,8 @@ export const COMPONENTS = [
     StoreModule.forRoot(reducers, { metaReducers }),
     EffectsModule.forRoot([
       AuthEffects,
-      EntriesEffects
+      EntriesEffects,
+      UploadsEffects
     ]),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
   ],
@@ -41,7 +44,8 @@ export const COMPONENTS = [
     AuthGuard,
     EntriesService,
     LoadAllEntriesResolver,
-    LoadEntryResolver
+    LoadEntryResolver,
+    UploadsService
   ]
 })
 export class CoreModule {
